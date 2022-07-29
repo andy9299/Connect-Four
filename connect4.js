@@ -61,6 +61,7 @@ function findSpotForCol(x) {
       return y;
     }
   }
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
@@ -99,7 +100,7 @@ function handleClick(evt) {
 
   // get next spot in column (if none, ignore click)
   const y = findSpotForCol(x);
-  if (y === undefined) {
+  if (y === null) {
     return;
   }
 
