@@ -9,7 +9,7 @@ const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
-let board = []; // array of rows, each row is array of cells  (board[y][x])
+let board = []; // array of rows, each row is array of cells  (board[[y]x])
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
@@ -81,26 +81,29 @@ function placeInTable(y, x) {
 /** endGame: announce game end and create a reset button*/
 
 function endGame(msg) {
-  alert(msg);
-  const resetBtn = document.createElement("button");
-  resetBtn.innerHTML = "Reset Game!";
-  resetBtn.setAttribute("id", "resetBtn");
-  resetBtn.addEventListener("click", resetGame);
-  const game = document.querySelector('#game');
-  document.body.appendChild(resetBtn);
-  const htmlBoard = document.querySelector('#board');;
-  htmlBoard.classList.toggle('finished');
+  setTimeout(function () {
+    alert(msg);
+    const resetBtn = document.createElement("button");
+    resetBtn.innerHTML = "Reset Game!";
+    resetBtn.setAttribute("id", "resetBtn");
+    resetBtn.addEventListener("click", resetGame);
+    const game = document.querySelector('#game');
+    document.body.appendChild(resetBtn);
+    const htmlBoard = document.querySelector('#board');;
+    htmlBoard.classList.toggle('finished');
+  }, 100);
 }
 
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
   // get x from ID of clicked cell
-  const x = +evt.target.id;
+  const x = parseInt(evt.target.id);
+  console.log(evt.target);
 
   // get next spot in column (if none, ignore click)
   const y = findSpotForCol(x);
-  if (y === null) {
+  if (!y) {
     return;
   }
 
@@ -156,10 +159,8 @@ function checkForWin() {
 
 function resetGame() {
   board = [];
-  const htmlBoard = document.querySelector('#board');
-  htmlBoard.innerHTML = "";
-  const resetBtn = document.querySelector('#resetBtn');
-  resetBtn.remove();
+  document.querySelector('#board').innerHTML = "";
+  document.querySelector('#resetBtn').remove();
   makeBoard();
   makeHtmlBoard();
   htmlBoard.classList.toggle('finished');
